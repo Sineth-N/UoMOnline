@@ -1,5 +1,6 @@
 package lk.ac.mrt.uom.uomonline.firebase;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -39,7 +40,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             message = remoteMessage.getNotification().getBody();
         }
 
-        Log.e("notification","recieved");
+
 
 
         sendNotification(title, message);
