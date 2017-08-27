@@ -58,7 +58,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ArticleMin
 
             @Override
             public void onError() {
-                Toast.makeText(context,"Error occurred while loading image",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Something went wrong.",Toast.LENGTH_SHORT).show();
             }
         });
     }
