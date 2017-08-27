@@ -24,6 +24,7 @@ import lk.ac.mrt.uom.uomonline.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle FCM messages here.
@@ -31,18 +32,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated.
         String title = "";
-        if (remoteMessage.getNotification().getTitle() != null){
+        if (remoteMessage.getNotification().getTitle() != null) {
             title = remoteMessage.getNotification().getTitle();
         }
 
         String message = "";
-        if (remoteMessage.getNotification().getBody() != null){
+        if (remoteMessage.getNotification().getBody() != null) {
             message = remoteMessage.getNotification().getBody();
         }
-
-
-
-
         sendNotification(title, message);
     }
 
@@ -53,7 +50,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
@@ -70,6 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(getRequestCode(), notificationBuilder.build());
     }
+
     private static int getRequestCode() {
         Random rnd = new Random();
         return 100 + rnd.nextInt(900000);
