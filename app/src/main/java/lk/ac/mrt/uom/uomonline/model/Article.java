@@ -65,4 +65,43 @@ public class Article implements Serializable{
         this.story = story;
     }
 
+    public static class ArticleBuilder {
+        private String title;
+        private String imageURL;
+        private String id;
+        private String tagLine;
+        private String story;
+
+        public ArticleBuilder() {
+        }
+
+        public ArticleBuilder setTitle(final String title) {
+            this.title = title;
+            return this;
+        }
+
+        public ArticleBuilder setimageURL(final String imageURL) {
+            this.imageURL = imageURL;
+            return this;
+        }
+
+        public ArticleBuilder setid(final String id) {
+            this.id = id;
+            return this;
+        }
+
+        public ArticleBuilder setTagLine(final String tagLine) {
+            this.tagLine = tagLine;
+            return this;
+        }
+
+        public ArticleBuilder setstory(final String story) {
+            this.story = story;
+            return this;
+        }
+
+        public Article build() {
+            return new Article(title, imageURL, id, tagLine, story);
+        }
+    }
 }

@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -23,6 +24,7 @@ public class NewsReadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_read);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView story = findViewById(R.id.story);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -37,7 +39,7 @@ public class NewsReadActivity extends AppCompatActivity {
 
         Article article = (Article) getIntent().getExtras().get("Article");
         final net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout collapsingToolbarLayout = (net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        if (article.getTitle() != null) {
+        if (article != null && article.getTitle() != null) {
             collapsingToolbarLayout.setTitle(article.getTitle());
         }
         Picasso.with(this).load(article.getImageURL()).into(new Target() {
@@ -56,6 +58,6 @@ public class NewsReadActivity extends AppCompatActivity {
 
             }
         });
-
+        story.setText(article.getStory());
     }
 }
