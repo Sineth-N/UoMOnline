@@ -21,6 +21,7 @@
             android:layout_height="256dp"
             android:layout_gravity="center_horizontal"
             android:cropToPadding="false"
+            android:adjustViewBounds="true"
             android:src="@mipmap/ic_launcher" />
         <TextView
             android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             android:textSize="30sp"
             android:textColor="@color/white"
             android:id="@+id/splashText"
-            android:text="UOM Official"
+            android:text="@string/uom_official"
             android:textAlignment="center" />
     </LinearLayout>
 </ScrollView>
