@@ -3,7 +3,6 @@ package lk.ac.mrt.uom.uomonline.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,10 @@ import android.widget.Toast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
-import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
 
-import lk.ac.mrt.uom.uomonline.MainActivity;
 import lk.ac.mrt.uom.uomonline.R;
-import lk.ac.mrt.uom.uomonline.model.ArticleMinified;
+import lk.ac.mrt.uom.uomonline.model.Article;
 import lk.ac.mrt.uom.uomonline.ui.NewsReadActivity;
 
 /**
@@ -31,10 +25,10 @@ import lk.ac.mrt.uom.uomonline.ui.NewsReadActivity;
 
 public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ArticleMinifiedViewHolder> {
 
-    LinkedHashMap<String,ArticleMinified> articleMinifieds;
-    Context context;
+    private LinkedHashMap<String, Article> articleMinifieds;
+    private Context context;
 
-    public MainRVAdapter(LinkedHashMap<String,ArticleMinified> articleMinifieds,Context context) {
+    public MainRVAdapter(LinkedHashMap<String, Article> articleMinifieds, Context context) {
         this.articleMinifieds = articleMinifieds;
         this.context = context;
     }
@@ -47,9 +41,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ArticleMin
 
     @Override
     public void onBindViewHolder(ArticleMinifiedViewHolder holder, int position) {
-        ArticleMinified article = articleMinifieds.get(articleMinifieds.keySet().toArray()[position]);
+        Article article = articleMinifieds.get(articleMinifieds.keySet().toArray()[position]);
         holder.title.setText(article.getTitle());
-        holder.url.setText(article.getImageURL());
+        holder.tagLine.setText(article.getTagLine());
         Picasso.with(context).load(article.getImageURL()).placeholder(R.mipmap.hadoop).into(holder.imageView, new Callback() {
             @Override
             public void onSuccess() {
@@ -58,7 +52,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ArticleMin
 
             @Override
             public void onError() {
-                Toast.makeText(context,"Error occurred while loading image",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Something went wrong.",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -76,11 +70,11 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ArticleMin
     class ArticleMinifiedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView imageView;
         TextView title;
-        TextView url;
+        TextView tagLine;
         public ArticleMinifiedViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.titleID);
-            url = itemView.findViewById(R.id.url);
+            tagLine = itemView.findViewById(R.id.tagLine);
             imageView = itemView.findViewById(R.id.coverImageView);
             itemView.setOnClickListener(this);
         }

@@ -5,8 +5,8 @@
     <color name="table_data_row_even">#11C5CAE9</color>
     <color name="table_data_row_odd">#33C5CAE9</color>
 
-    <color name="colorPrimary">#E43F3F</color>
-    <color name="colorPrimaryDark">#E12929</color>
+    <color name="colorPrimary">#03a9f4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorAccent">#009687</color>
     <color name="black">#FF000000</color>
 
