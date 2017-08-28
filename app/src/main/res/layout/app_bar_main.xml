@@ -29,6 +29,6 @@
         android:layout_gravity="bottom|end"
         android:visibility="invisible"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:mipmap/sym_def_app_icon" />
+        app:srcCompat="@drawable/ic_up" />
 
 </android.support.design.widget.CoordinatorLayout>
