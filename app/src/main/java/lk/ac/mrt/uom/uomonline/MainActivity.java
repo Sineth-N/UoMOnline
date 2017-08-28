@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity
         ref.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                Toast.makeText(MainActivity.this,dataSnapshot.getValue(ArticleMinified.class).getImageURL(),Toast.LENGTH_SHORT).show();
+                System.out.println("Child Added");
+//              Toast.makeText(MainActivity.this,dataSnapshot.getValue(ArticleMinified.class).getImageURL(),Toast.LENGTH_SHORT).show();
                 ArticleMinified articleMinified = new ArticleMinified(
                         dataSnapshot.getValue(ArticleMinified.class).getTitle(),
                         dataSnapshot.getValue(ArticleMinified.class).getImageURL(),
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                System.out.println("Child Changed");
                 ArticleMinified article = dataSnapshot.getValue(ArticleMinified.class);
                 linkedHashMap.put(article.getId(),article);
                 mainRVAdapter.notifyDataSetChanged();
