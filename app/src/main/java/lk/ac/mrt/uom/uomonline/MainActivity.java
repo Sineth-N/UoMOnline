@@ -3,50 +3,38 @@ package lk.ac.mrt.uom.uomonline;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.ListPopupWindow;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
 
 import lk.ac.mrt.uom.uomonline.adapters.MainRVAdapter;
-import lk.ac.mrt.uom.uomonline.model.ArticleMinified;
+import lk.ac.mrt.uom.uomonline.model.Article;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean doubleBackToExitPressedOnce= false;
-    private List<ArticleMinified> articleMinifieds = new ArrayList<>();
-    private LinkedHashMap<String,ArticleMinified> linkedHashMap = new LinkedHashMap<>(10,0.5f);
+    private List<Article> articles = new ArrayList<>();
+    private LinkedHashMap<String,Article> linkedHashMap = new LinkedHashMap<>(10,0.5f);
     MainRVAdapter mainRVAdapter;
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -65,23 +53,26 @@ public class MainActivity extends AppCompatActivity
         ref.orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                Toast.makeText(MainActivity.this,dataSnapshot.getValue(ArticleMinified.class).getImageURL(),Toast.LENGTH_SHORT).show();
-                ArticleMinified articleMinified = new ArticleMinified(
-                        dataSnapshot.getValue(ArticleMinified.class).getTitle(),
-                        dataSnapshot.getValue(ArticleMinified.class).getImageURL(),
-                        dataSnapshot.getValue(ArticleMinified.class).getId()
+//                Toast.makeText(MainActivity.this,dataSnapshot.getValue(Article.class).getImageURL(),Toast.LENGTH_SHORT).show();
+                Article article = new Article(
+                        dataSnapshot.getValue(Article.class).getTitle(),
+                        dataSnapshot.getValue(Article.class).getImageURL(),
+                        dataSnapshot.getValue(Article.class).getId(),
+                        dataSnapshot.getValue(Article.class).getTagLine(),
+                        dataSnapshot.getValue(Article.class).getStory()
+
                 );
 
-                linkedHashMap.put(articleMinified.getId(),articleMinified);
-                if (!articleMinifieds.contains(articleMinified)){
-                    articleMinifieds.add(articleMinified);
+                linkedHashMap.put(article.getId(), article);
+                if (!articles.contains(article)){
+                    articles.add(article);
                 }
                 mainRVAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                ArticleMinified article = dataSnapshot.getValue(ArticleMinified.class);
+                Article article = dataSnapshot.getValue(Article.class);
                 linkedHashMap.put(article.getId(),article);
                 mainRVAdapter.notifyDataSetChanged();
                 Toast.makeText(MainActivity.this,"Updated the "+ article.getImageURL(),Toast.LENGTH_SHORT).show();
@@ -90,10 +81,10 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                ArticleMinified article = dataSnapshot.getValue(ArticleMinified.class);
+                Article article = dataSnapshot.getValue(Article.class);
                 linkedHashMap.remove(article.getId());
                 mainRVAdapter.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this," Child Removed " + dataSnapshot.getValue(ArticleMinified.class).getTitle(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this," Child Removed " + dataSnapshot.getValue(Article.class).getTitle(),Toast.LENGTH_SHORT).show();
 
             }
 
@@ -108,22 +99,26 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+        final RecyclerView rv = (RecyclerView) findViewById(R.id.mainRV);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String key = myRef.push().getKey();
-                ArticleMinified articleMinified = new ArticleMinified("Sineth","https://firebasestorage.googleapis.com/v0/b/uomonline-1bc39.appspot.com/o/articleImages%2Fsparks-1.jpg?alt=media&token=2c4489e4-a08f-42f3-92ae-4c98b651bf7b",key);
-                Task<Void> task = myRef.child(key).setValue(articleMinified);
-                task.addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(MainActivity.this,"Successfully SET",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                rv.smoothScrollToPosition(0);
+//                String key = myRef.push().getKey();
+//                Article articleMinified = new Article("Sineth","https://firebasestorage.googleapis.com/v0/b/uomonline-1bc39.appspot.com/o/articleImages%2Fsparks-1.jpg?alt=media&token=2c4489e4-a08f-42f3-92ae-4c98b651bf7b",key);
+//                Task<Void> task = myRef.child(key).setValue(articleMinified);
+//                task.addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(MainActivity.this,"Successfully SET",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
             }
         });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -134,14 +129,25 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+
 //        linearLayout.setReverseLayout(true);
 //        linearLayout.setStackFromEnd(true);
-        RecyclerView rv = (RecyclerView) findViewById(R.id.mainRV);
+
         rv.setLayoutManager(linearLayout);
         mainRVAdapter = new MainRVAdapter(linkedHashMap,MainActivity.this);
         rv.setAdapter(mainRVAdapter);
-
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int firstCompletelyVisibleItemPosition = linearLayout.findFirstVisibleItemPosition();
+                if (firstCompletelyVisibleItemPosition >= 1 ){
+                    fab.show();
+                }else {
+                    fab.hide();
+                }
+            }
+        });
 
 
     }
@@ -182,12 +188,12 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

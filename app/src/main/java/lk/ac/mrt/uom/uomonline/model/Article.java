@@ -7,18 +7,22 @@ import java.io.StringReader;
  * Created by sineth on 8/11/17.
  */
 
-public class ArticleMinified implements Serializable{
+public class Article implements Serializable{
     private String title;
     private String imageURL;
     private String id;
+    private String tagLine;
+    private String story;
 
-    public ArticleMinified() {
+    public Article() {
     }
 
-    public ArticleMinified(String title, String imageURL,String id) {
+    public Article(String title, String imageURL, String id, String tagLine, String story) {
         this.title = title;
         this.imageURL = imageURL;
         this.id = id;
+        this.tagLine = tagLine;
+        this.story = story;
     }
 
     public String getTitle() {
@@ -44,4 +48,21 @@ public class ArticleMinified implements Serializable{
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getTagLine() {
+        return tagLine;
+    }
+
+    public void setTagLine(String tagLine) {
+        this.tagLine = tagLine;
+    }
+
+    public String getStory() {
+        return story;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
+    }
+
 }
