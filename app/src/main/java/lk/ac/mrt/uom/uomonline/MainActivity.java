@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -106,16 +108,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 rv.smoothScrollToPosition(0);
-//                String key = myRef.push().getKey();
-//                Article articleMinified = new Article("Sineth","https://firebasestorage.googleapis.com/v0/b/uomonline-1bc39.appspot.com/o/articleImages%2Fsparks-1.jpg?alt=media&token=2c4489e4-a08f-42f3-92ae-4c98b651bf7b",key);
-//                Task<Void> task = myRef.child(key).setValue(articleMinified);
-//                task.addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Toast.makeText(MainActivity.this,"Successfully SET",Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
             }
         });
 
@@ -149,6 +141,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+//        String key = myRef.push().getKey();
+//        Article article = new Article.ArticleBuilder().setid(key)
+//                .setimageURL("https://firebasestorage.googleapis.com/v0/b/uomonline-1bc39.appspot.com/o/articleImages%2FDAAD%201_0.jpg?alt=media&token=8040f101-7c43-4b5c-b80d-3f9af855ecd9")
+//                .setTitle("Delegates from Lahore University of Management Sciences (LUMS), Pakistan visit University of Moratuwa")
+//                .setstory("Dr. Jawad Syed, the Dean & Professor of Suleman Dawood School of Business ,Lahore University of Management Sciences (LUMS), Pakistan visited University of Moratuwa (UOM) on 10th March 2017 as a part of their international expansion strategy to network with academic institutions and to enroll Sri Lankan students to MBA programs of LUMS under full scholarships funded by Asian Development Bank. LUMS is keen on building partnerships in the areas of research collaborations, faculty collaborations and other forms of partnerships. The visit was coordinated by Mr. Chaminda Hettiarachchi, Visiting lecturer, Department of Computer Science and Engineering\n" +
+//                        "\n" +
+//                        "The Vice Chancellor Prof. Ananda Jayawardane presided  the meeting which was attended by the Director, International Affairs, Prof. Gihan Dias and the Dean, Faculty of Business, Prof. Neranjan Gunawardana.")
+//                .setTagLine("Pakistan to Sri Lanka ")
+//                .build();
+//        Task<Void> task = myRef.child(key).setValue(article);
+//        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Toast.makeText(MainActivity.this,"Successfully SET",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

@@ -15,6 +15,7 @@ import com.chootdev.csnackbar.Duration;
 import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
 
+import lk.ac.mrt.uom.uomonline.LoginActivity;
 import lk.ac.mrt.uom.uomonline.MainActivity;
 import lk.ac.mrt.uom.uomonline.R;
 
@@ -40,7 +41,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
                 overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
                 startActivity(intent);
                 SplashScreen.this.finish();
