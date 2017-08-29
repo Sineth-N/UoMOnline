@@ -16,7 +16,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.NewsReadActivity"
             android:parentActivityName=".MainActivity"
@@ -28,10 +28,13 @@
         <activity android:name=".ui.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:label="SignIn to UoM News" />
 
         <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
@@ -65,11 +68,10 @@
              Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
-        <!--
-            <meta-data
+
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/accent" />
-        -->
+            android:resource="@color/colorPrimaryDark" />
 
 
         <!-- [END FCM notification icons] -->
@@ -78,7 +80,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".LoginActivity"></activity>
+
     </application>
 
 </manifest>
