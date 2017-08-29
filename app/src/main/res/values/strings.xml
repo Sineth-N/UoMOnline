@@ -9,4 +9,5 @@
 
     <string name="inform_dev">Oops… ! Looks like something went wrong. Care to report this to the developers please?</string>
     <string name="uom_official">UOM Official</string>
+    <string name="log_out">Log out</string>
 </resources>
