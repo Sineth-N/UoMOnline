@@ -4,6 +4,7 @@ package lk.ac.mrt.uom.uomonline.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 import com.chootdev.csnackbar.Duration;
 import com.chootdev.csnackbar.Snackbar;
 import com.chootdev.csnackbar.Type;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
+import com.google.firebase.auth.FirebaseUser;
 
 import lk.ac.mrt.uom.uomonline.LoginActivity;
 import lk.ac.mrt.uom.uomonline.MainActivity;
@@ -31,22 +35,43 @@ public class SplashScreen extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash_screen);
-
-        Snackbar.with(this, null)
-                .type(Type.ERROR)
-                .message("No Internet Connection Available")
-                .duration(Duration.INFINITE)
-                .show();
-        runAnimation();
-        new Handler().postDelayed(new Runnable() {
+        AuthStateListener authStateListener = new AuthStateListener() {
             @Override
-            public void run() {
-                Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
-                overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
-                startActivity(intent);
-                SplashScreen.this.finish();
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (null != currentUser) {
+                    Snackbar.with(SplashScreen.this, null)
+                            .type(Type.ERROR)
+                            .message("Not Logged In")
+                            .duration(Duration.INFINITE)
+                            .show();
+                    runAnimation();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
+                            overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
+                            startActivity(intent);
+                            SplashScreen.this.finish();
+                        }
+                    }, SPLASH_DISPLAY_LENGTH);
+                } else {
+                    runAnimation();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
+                            overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
+                            startActivity(intent);
+                            SplashScreen.this.finish();
+                        }
+                    }, SPLASH_DISPLAY_LENGTH);
+                }
             }
-        }, SPLASH_DISPLAY_LENGTH);
+        };
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
+
+
     }
 
     private void runAnimation() {
