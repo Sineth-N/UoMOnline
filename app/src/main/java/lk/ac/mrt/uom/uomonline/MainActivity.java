@@ -2,6 +2,7 @@ package lk.ac.mrt.uom.uomonline;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,8 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +35,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import lk.ac.mrt.uom.uomonline.adapters.MainRVAdapter;
+import lk.ac.mrt.uom.uomonline.firebase.FirebaseAuthenticationService;
 import lk.ac.mrt.uom.uomonline.model.Article;
 
 public class MainActivity extends AppCompatActivity
@@ -221,6 +228,17 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            FirebaseAuth mAuth =FirebaseAuth.getInstance();
+            mAuth.signOut();
+            GoogleApiClient mGoogleApiClient = FirebaseAuthenticationService.getApiClient();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(@NonNull Status status) {
+
+                            Toast.makeText(MainActivity.this,"Logged Out",Toast.LENGTH_LONG).show();
+                        }
+                    });
 
         } else if (id == R.id.nav_send) {
 
