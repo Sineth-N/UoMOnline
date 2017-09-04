@@ -2,6 +2,7 @@ package lk.ac.mrt.uom.uomonline;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,8 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,24 +35,26 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import lk.ac.mrt.uom.uomonline.adapters.MainRVAdapter;
+import lk.ac.mrt.uom.uomonline.firebase.FirebaseAuthenticationService;
 import lk.ac.mrt.uom.uomonline.model.Article;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private boolean doubleBackToExitPressedOnce= false;
+    private boolean doubleBackToExitPressedOnce = false;
     private List<Article> articles = new ArrayList<>();
-    private LinkedHashMap<String,Article> linkedHashMap = new LinkedHashMap<>(10,0.5f);
+    private LinkedHashMap<String, Article> linkedHashMap = new LinkedHashMap<>(10, 0.5f);
     MainRVAdapter mainRVAdapter;
     FirebaseDatabase database;
     DatabaseReference myRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (database == null){
+        if (database == null) {
             database = FirebaseDatabase.getInstance();
             myRef = database.getReference("articles");
         }
@@ -66,7 +74,7 @@ public class MainActivity extends AppCompatActivity
                 );
 
                 linkedHashMap.put(article.getId(), article);
-                if (!articles.contains(article)){
+                if (!articles.contains(article)) {
                     articles.add(article);
                 }
                 mainRVAdapter.notifyDataSetChanged();
@@ -75,9 +83,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Article article = dataSnapshot.getValue(Article.class);
-                linkedHashMap.put(article.getId(),article);
+                linkedHashMap.put(article.getId(), article);
                 mainRVAdapter.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this,"Updated the "+ article.getImageURL(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Updated the " + article.getImageURL(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -86,7 +94,7 @@ public class MainActivity extends AppCompatActivity
                 Article article = dataSnapshot.getValue(Article.class);
                 linkedHashMap.remove(article.getId());
                 mainRVAdapter.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this," Child Removed " + dataSnapshot.getValue(Article.class).getTitle(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, " Child Removed " + dataSnapshot.getValue(Article.class).getTitle(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -126,16 +134,16 @@ public class MainActivity extends AppCompatActivity
 //        linearLayout.setStackFromEnd(true);
 
         rv.setLayoutManager(linearLayout);
-        mainRVAdapter = new MainRVAdapter(linkedHashMap,MainActivity.this);
+        mainRVAdapter = new MainRVAdapter(linkedHashMap, MainActivity.this);
         rv.setAdapter(mainRVAdapter);
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int firstCompletelyVisibleItemPosition = linearLayout.findFirstVisibleItemPosition();
-                if (firstCompletelyVisibleItemPosition >= 1 ){
+                if (firstCompletelyVisibleItemPosition >= 1) {
                     fab.show();
-                }else {
+                } else {
                     fab.hide();
                 }
             }
@@ -221,6 +229,17 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            mAuth.signOut();
+            GoogleApiClient mGoogleApiClient = FirebaseAuthenticationService.getApiClient();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(@NonNull Status status) {
+
+                            Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
+                        }
+                    });
 
         } else if (id == R.id.nav_send) {
 
