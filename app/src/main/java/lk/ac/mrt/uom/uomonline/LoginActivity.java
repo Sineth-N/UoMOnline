@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import lk.ac.mrt.uom.uomonline.firebase.FirebaseAuthenticationService;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,30 +37,20 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private SignInButton googleSignInButton;
     private Button signOutButton;
+    private GoogleSignInOptions gso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+        FirebaseAuthenticationService.InitializeAuthentication(this);
         googleSignInButton = findViewById(R.id.googleButton);
         signOutButton = findViewById(R.id.logoutButton);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-
-        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        System.out.println("On Connection Failed");
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
-                .build();
+        gso = FirebaseAuthenticationService.getSignInOptions();
+        mGoogleApiClient = FirebaseAuthenticationService.getApiClient();
 
 
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +98,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser user = mAuth.getCurrentUser();
-            if(user!=null){
+        /*
+        if(user!=null){
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("Name",user.getDisplayName());
                 intent.putExtra("Email",user.getEmail());
@@ -115,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
 
             }
-
+        */
         //updateUI(currentUser);
     }
 
