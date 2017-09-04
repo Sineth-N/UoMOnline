@@ -2,14 +2,18 @@ package lk.ac.mrt.uom.uomonline.ui;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chootdev.csnackbar.Duration;
@@ -18,6 +22,8 @@ import com.chootdev.csnackbar.Type;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import lk.ac.mrt.uom.uomonline.LoginActivity;
 import lk.ac.mrt.uom.uomonline.MainActivity;
@@ -35,6 +41,23 @@ public class SplashScreen extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash_screen);
+        final ImageView splashImageView = findViewById(R.id.splashImageView);
+        Picasso.with(this).load(R.mipmap.ic_launcher).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                splashImageView.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
         AuthStateListener authStateListener = new AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
