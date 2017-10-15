@@ -40,7 +40,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.afollestad.material-dialogs:core:0.9.4.7'
     compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
-
+    compile 'com.github.shts:StoriesProgressView:1.2.0'
 //    compile files('lib/picasso-2.5.2.jar')
 
 }
