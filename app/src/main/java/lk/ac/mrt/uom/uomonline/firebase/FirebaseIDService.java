@@ -1,6 +1,7 @@
 package lk.ac.mrt.uom.uomonline.firebase;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -14,7 +15,6 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 public class FirebaseIDService extends FirebaseInstanceIdService {
     private static final String TAG = "FirebaseIDService";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    final DatabaseReference myRef = database.getReference("refreshToken");
     @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.
@@ -34,6 +34,6 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-
+        Log.e("SINE",token);
     }
 }

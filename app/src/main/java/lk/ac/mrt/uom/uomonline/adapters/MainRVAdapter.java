@@ -44,7 +44,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.ArticleMin
         Article article = articleMinifieds.get(articleMinifieds.keySet().toArray()[position]);
         holder.title.setText(article.getTitle());
         holder.tagLine.setText(article.getTagLine());
-        Picasso.with(context).load(article.getImageURL()).placeholder(R.mipmap.graph_increasing).into(holder.imageView, new Callback() {
+        Picasso.with(context).load(article.getImageURL()).placeholder(R.mipmap.mora_news_image_please_wait).into(holder.imageView, new Callback() {
             @Override
             public void onSuccess() {
 

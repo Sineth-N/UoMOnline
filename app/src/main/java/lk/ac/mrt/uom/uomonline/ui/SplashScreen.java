@@ -42,37 +42,40 @@ public class SplashScreen extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash_screen);
         final ImageView splashImageView = findViewById(R.id.splashImageView);
-        Picasso.with(this).load(R.mipmap.ic_launcher).into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                splashImageView.setImageBitmap(bitmap);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        });
+//        Picasso.with(this).load(R.mipmap.ic_launcher_2).into(new Target() {
+//            @Override
+//            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                splashImageView.setImageBitmap(bitmap);
+//            }
+//
+//            @Override
+//            public void onBitmapFailed(Drawable errorDrawable) {
+//
+//            }
+//
+//            @Override
+//            public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//            }
+//        });
         AuthStateListener authStateListener = new AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (null != currentUser) {
                     Snackbar.with(SplashScreen.this, null)
                             .type(Type.ERROR)
                             .message("Not Logged In")
-                            .duration(Duration.INFINITE)
-                            .show();
+                            .duration(Duration.INFINITE);
                     runAnimation();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(SplashScreen.this, LoginActivity.class);
+                            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                            intent.putExtra("Name",currentUser.getDisplayName());
+                            intent.putExtra("Email",currentUser.getEmail());
+                            intent.putExtra("Phone",currentUser.getPhoneNumber());
+                            intent.putExtra("Image",currentUser.getPhotoUrl());
                             overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
                             startActivity(intent);
                             SplashScreen.this.finish();
